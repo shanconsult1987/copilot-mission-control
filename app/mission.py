@@ -320,6 +320,15 @@ def get_mission_response(category: IncidentCategory) -> MissionResponse:
     return _CATEGORY_CONFIG[category].response
 
 
+def _validate_mission_id(mission_id: str) -> None:
+    """Validate that a mission ID is a nonempty string."""
+
+    if not isinstance(mission_id, str):
+        raise TypeError("incident_id must be a string")
+    if not mission_id.strip():
+        raise ValueError("incident_id must not be empty")
+
+
 def process_incident(incident: Incident) -> IncidentResult:
     """Validate, classify, and generate a response for an incident.
 
@@ -330,10 +339,7 @@ def process_incident(incident: Incident) -> IncidentResult:
 
     if not isinstance(incident, Incident):
         raise TypeError("incident must be an Incident")
-    if not isinstance(incident.incident_id, str):
-        raise TypeError("incident_id must be a string")
-    if not incident.incident_id.strip():
-        raise ValueError("incident_id must not be empty")
+    _validate_mission_id(incident.incident_id)
 
     classification = classify_incident(incident.description)
     response = get_mission_response(classification.category)

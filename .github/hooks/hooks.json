@@ -1,0 +1,10 @@
+{
+  "hooks": {
+    "userPromptSubmitted": [
+      {
+        "type": "command",
+        "command": "powershell -ExecutionPolicy Bypass -File .github/hooks/validate.ps1"
+      }
+    ]
+  }
+}
